@@ -21,7 +21,10 @@ class Logger(metaclass=SingletonMeta):
     queue=None,):
 
     self.service_name = service_name.replace('-', '_')
+    
     self.queue = Queue(host, port, exchange, queue)
+    self.queue.connect()
+    self.queue.queue_bind()
   
   def log_to_server(self, level, log_message):
     data = {
@@ -31,10 +34,7 @@ class Logger(metaclass=SingletonMeta):
       'log_message': log_message,
     }
 
-    self.queue.connect()
-    self.queue.queue_bind()
     self.queue.publish(data)
-    self.queue.close()
 
   def debug(self, log_message):
     self.log_to_server('debug', log_message)
