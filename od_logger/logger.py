@@ -1,5 +1,5 @@
 from datetime import datetime
-from od_logger.queue import Queue
+from od_logger.api import Api
 
 class SingletonMeta(type):
   _instance = None
@@ -16,16 +16,11 @@ class Logger(metaclass=SingletonMeta):
   def config(self,
     service_name=None,
     host='localhost',
-    port=5672,
-    exchange=None,
-    queue=None,):
+    port=8087):
 
-    self.service_name = service_name.replace('-', '_')
-    
-    self.queue = Queue(host, port, exchange, queue)
-    self.queue.connect()
-    self.queue.queue_bind()
-  
+    self.service_name = service_name
+    self.api = Api(host, port)
+
   def log_to_server(self, level, log_message):
     data = {
       'service_name': self.service_name,
@@ -34,7 +29,7 @@ class Logger(metaclass=SingletonMeta):
       'log_message': log_message,
     }
 
-    self.queue.publish(data)
+    self.api.post(data)
 
   def debug(self, log_message):
     self.log_to_server('debug', log_message)

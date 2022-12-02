@@ -5,6 +5,10 @@ setup(
 	version = '1.0.0',
   packages = find_packages(),
   install_requires = [
-    'pika==1.3.1',
+    'certifi==2022.9.24',
+    'charset-normalizer==2.1.1',
+    'idna==3.4',
+    'requests==2.28.1',
+    'urllib3==1.26.13',
   ],
 )
