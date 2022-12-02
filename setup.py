@@ -9,6 +9,6 @@ setup(
     'charset-normalizer==2.1.1',
     'idna==3.4',
     'requests==2.28.1',
-    'urllib3==1.26.13',
+    'urllib3==1.26.12',
   ],
 )
